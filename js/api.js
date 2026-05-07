@@ -1,61 +1,34 @@
-import {showError} from './main.js';
-import {updateUI} from './main.js';
-
-export function getCoordinate() //prende le coordinate da cui fare la chiamata api (la posizione dell'utente)
-{
-    if (!navigator.geolocation)     // se non posso prendere la posizione mando l'errore
-    {
-        showError("Geolocalizzazione non supportata");
+export function getCoordinate(callbackSuccess, callbackError) {
+    if (!navigator.geolocation) {
+        callbackError("Geolocalizzazione non supportata");
         return;
     }
     navigator.geolocation.getCurrentPosition(
-        position => { //logica se la chiamata va a buon fine
-            const {latitude, longitude} = position.coords;
-            fetchData(latitude, longitude);
+        position => {
+            const { latitude, longitude } = position.coords;
+            fetchData(latitude, longitude, callbackSuccess, callbackError);
         },
-        err => {//logica se la chiamata fallisce: assegno il valore del messaggio di errore con uno switch
+        err => {
             let msg;
-            switch (err.code)
-            {
-                case err.PERMISSION_DENIED:
-                    msg='Accesso alla posizione negato'
-                    break;
-                case err.POSITION_UNAVAILABLE:
-                    msg='Posizione non disponibile'
-                    break;
-                case err.TIMEOUT:
-                    msg='Tempo scaduto'
-                    break;
-                default:
-                    msg='Errore sconosciuto'
+            switch (err.code) {
+                case err.PERMISSION_DENIED: msg = 'Accesso alla posizione negato'; break;
+                case err.POSITION_UNAVAILABLE: msg = 'Posizione non disponibile'; break;
+                case err.TIMEOUT: msg = 'Tempo scaduto'; break;
+                default: msg = 'Errore sconosciuto';
             }
-            showError(msg)
+            callbackError(msg);
         }
     );
 }
 
-function fetchData(lat, long) //prende latitudine e longitudine per fare la chiamata api
-{
+function fetchData(lat, long, callbackSuccess, callbackError) {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current_weather=true`;
 
-    // l'url non necessita di essere modificato e varia con i parametri
-    const url= `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current_weather=true`;
-
-    //chiamo le api del meteo
     fetch(url)
-        .then(response =>
-        {
-            if(!response.ok)
-            {
-                throw new Error(response.statusText);
-            }
+        .then(response => {
+            if (!response.ok) throw new Error(response.statusText);
             return response.json();
         })
-        .then(json =>
-            {
-                updateUI(json);
-            })
-        .catch(error =>
-            {
-                showError("Errore nell\'aggiornamento dell\'interfaccia");
-            })
+        .then(json => callbackSuccess(json)) // Qui passiamo i dati al main
+        .catch(error => callbackError("Errore nel recupero dati meteo"));
 }
