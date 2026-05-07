@@ -1,4 +1,4 @@
-function getWeatherIcon(code) //serve a inserire l'icona giusta in base al codice che perndo
+export function getWeatherIcon(code) //serve a inserire l'icona giusta in base al codice che perndo
 {
     const mapping = {
         0: 'bi-brightness-high',      // Sereno
@@ -15,9 +15,4 @@ function getWeatherIcon(code) //serve a inserire l'icona giusta in base al codic
 
 
     return mapping[code] || 'bi-question-circle';
-}
-
-function formatTimeStamp(time) //restituisce il timestamp formattato correttamente per avere una ui carina (speriamo che sia cosi')
-{
-
 }
