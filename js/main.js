@@ -22,6 +22,10 @@ export function updateUI(data) //carica i dati nella ui
     }
     if(windElement) windElement.innerText= `Vento: ${wind} km/h`;
 
+    if (dateElement) {
+        dateElement.innerText = formatDate(data.current_weather.time);
+    }
+
     const loader= document.getElementById('loader');
     if(loader) loader.classList.add('d-none');
 }
