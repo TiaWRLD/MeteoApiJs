@@ -1,5 +1,5 @@
-import showError from './main.js';
-import updateUI from './main.js';
+import {showError} from './main.js';
+import {updateUI} from './main.js';
 
 function getCoordinate() //prende le coordinate da cui fare la chiamata api (la posizione dell'utente)
 {

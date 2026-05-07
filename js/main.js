@@ -1,5 +1,5 @@
-import getWeatherIcon from './utils.js'
-import getCoordinate from './api.js';
+import {getWeatherIcon} from './utils.js'
+import {getCoordinate} from './api.js';
 
 
 export function updateUI(data) //carica i dati nella ui
