@@ -16,3 +16,7 @@ export function getWeatherIcon(code) //serve a inserire l'icona giusta in base a
 
     return mapping[code] || 'bi-question-circle';
 }
+
+export function formatDate(isoString) {
+    return new Date(isoString).toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'short' });
+}

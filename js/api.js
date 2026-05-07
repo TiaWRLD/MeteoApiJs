@@ -46,7 +46,7 @@ function fetchData(lat, long) //prende latitudine e longitudine per fare la chia
         {
             if(!response.ok)
             {
-                showError(response.statusText);
+                throw new Error(response.statusText);
             }
             return response.json();
         })
