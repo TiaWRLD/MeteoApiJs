@@ -1,7 +1,7 @@
 import {showError} from './main.js';
 import {updateUI} from './main.js';
 
-function getCoordinate() //prende le coordinate da cui fare la chiamata api (la posizione dell'utente)
+export function getCoordinate() //prende le coordinate da cui fare la chiamata api (la posizione dell'utente)
 {
     if (!navigator.geolocation)     // se non posso prendere la posizione mando l'errore
     {
